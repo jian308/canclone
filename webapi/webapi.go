@@ -2,12 +2,13 @@
  * @Author: 杨小灿jian308@qq.com
  * @Date: 2023-04-01 13:28:16
  * @LastEditors: 杨小灿jian308@qq.com
- * @LastEditTime: 2023-04-01 13:39:09
+ * @LastEditTime: 2023-04-03 22:38:46
  */
 package webapi
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/jian308/go/conf"
 	"github.com/jian308/go/log"
 )
@@ -18,6 +19,7 @@ func WebNew() {
 	app = fiber.New(fiber.Config{
 		DisableStartupMessage: true, //隐藏启动信息
 	})
+	app.Use(pprof.New())
 	//路由绑定
 	Route(app)
 	// 读取端口

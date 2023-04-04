@@ -2,7 +2,7 @@
  * @Author: 杨小灿jian308@qq.com
  * @Date: 2023-04-01 14:13:20
  * @LastEditors: 杨小灿jian308@qq.com
- * @LastEditTime: 2023-04-03 20:03:05
+ * @LastEditTime: 2023-04-03 23:32:56
  */
 package clone
 
@@ -10,7 +10,9 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync/atomic"
 
+	"github.com/jian308/go/conf"
 	"github.com/jian308/go/log"
 	"github.com/panjf2000/ants/v2"
 )
@@ -22,6 +24,15 @@ import (
 	缓存文件保存源文件的大小跟md5 以及已经传输到了哪一分块 总共多少个
 	续传的时候把分块继续传上来 传完后合并成完整的文件
 */
+
+var poolsize int64 = 30
+
+func SyncInit() {
+	if conf.Get("clone.poolsize") != nil {
+		size := conf.Get("clone.poolsize").(int64)
+		atomic.StoreInt64(&poolsize, size)
+	}
+}
 
 func SyncFile(srcPath, dstPath string) error {
 	log.Debug("开始同步", srcPath)
@@ -110,7 +121,7 @@ func SyncDir(src, dst string) error {
 	}
 	//启用ants
 	defer ants.Release()
-	SyncFileTask, _ := ants.NewPool(10)
+	SyncFileTask, _ := ants.NewPool(int(poolsize))
 	// 遍历源文件夹
 	return filepath.Walk(src, func(path string, info os.FileInfo, err error) error {
 		if err != nil {

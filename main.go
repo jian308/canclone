@@ -2,7 +2,7 @@
  * @Author: 杨小灿jian308@qq.com
  * @Date: 2023-04-01 13:12:07
  * @LastEditors: 杨小灿jian308@qq.com
- * @LastEditTime: 2023-04-02 02:14:50
+ * @LastEditTime: 2023-04-03 22:45:00
  */
 package main
 
@@ -25,10 +25,10 @@ func main() {
 	} else {
 		log.SetLevel(zapcore.InfoLevel)
 	}
-	//开启文件同步系统
-	clone.New()
 	//启动接口服务
 	go webapi.WebNew()
+	//开启文件同步系统
+	go clone.New()
 	log.Info("服务启动成功!")
 	//优雅关闭开启的服务
 	c := make(chan os.Signal, 1)
