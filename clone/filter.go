@@ -40,7 +40,10 @@ func LoadFilter() {
 }
 
 func DoFilter(dirName, dir string) bool {
-	filters := Filters.Load().([]string)
+	filters, ok := Filters.Load().([]string)
+	if !ok {
+		return false
+	}
 	info, err := os.Stat(dirName)
 	if err != nil {
 		//log.Debug("获取信息错误", err)
