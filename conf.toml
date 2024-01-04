@@ -3,7 +3,7 @@ debug = true
 dir_src = "./dir_src"
 dir_dst = "./dir_dst"
 poolsize = 30
-passkey = "testpasskey" #密码暂不支持修改 aes默认只能是11位 删掉这行就不加密
+passkey = "testpasskey" #密码暂不支持修改 aes默认只能是16位 删掉这行就不加密
 ticker = 60 #不填写或者填0关闭缓存同步
 [webapi]
 listen = ":8787"

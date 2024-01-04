@@ -22,6 +22,12 @@ var Cryptkey string
 func CryptInit() {
 	if conf.Get("clone.passkey") != nil {
 		Cryptkey = conf.Get("clone.passkey").(string)
+		if len(Cryptkey) < 16 {
+			Cryptkey = Cryptkey + "github.com/jian308/canclone"
+		}
+		if len(Cryptkey) > 16 {
+			Cryptkey = Cryptkey[:16]
+		}
 		CryptOk = true
 	}
 }
